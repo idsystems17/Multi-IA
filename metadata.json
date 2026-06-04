@@ -1,0 +1,6 @@
+{
+  "name": "Multi-IA Expert",
+  "description": "Plataforma completa para dominar a orquestração de Inteligências Artificiais gratuitas e gerar renda na internet.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

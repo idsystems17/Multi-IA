@@ -61,7 +61,7 @@ O campo "phase" deve descrever o objetivo do prompt (ex: "Pesquisa de Mercado", 
 O campo "aiTool" deve conter o nome exato da IA gratuita recomendada para aquele prompt.
 O campo "proTip" deve conter uma dica prática de como otimizar o resultado naquela ferramenta específica.`;
 
-    const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-flash-latest"];
+    const modelsToTry = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
     let response = null;
     let lastError = null;
 

@@ -733,7 +733,7 @@ export default function App() {
                     <div className="p-4 bg-slate-950/80 rounded-xl border border-white/5 flex gap-3 text-xs leading-relaxed text-slate-400">
                       <HelpCircle className="w-8 h-8 text-[#6366f1] shrink-0" />
                       <div>
-                        A API utiliza o modelo <strong>Gemini 2.0 Flash</strong> para gerar prompts detalhados e prontos para copiar e colar em cada IA gratuita.
+                        A API utiliza o modelo <strong>Gemini 3.5 Flash</strong> para gerar prompts detalhados e prontos para copiar e colar em cada IA gratuita.
                       </div>
                     </div>
                   </div>

@@ -36,28 +36,34 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const { niche, goal, experience, workHours } = req.body;
+    const { niche, productType, experience, workHours } = req.body;
 
-    if (!niche || !goal) {
-      return res.status(400).json({ error: "Por favor, indique o seu nicho e seu objetivo principal." });
+    if (!niche || !productType) {
+      return res.status(400).json({ error: "Por favor, indique o seu nicho e o tipo de produto." });
     }
 
     const ai = getGeminiClient();
 
-    const systemInstruction = `Você é um mentor especialista em monetização extrema na internet utilizando Inteligências Artificiais GRATUITAS combinadas (orquestração de IAs).
-O seu objetivo é desmistificar que as pessoas precisam usar apenas uma IA paga (como ChatGPT Plus). Ensine-as a tirar o máximo de proveito combinando várias IAs gratuitas (ex: ChatGPT, Claude, Gemini, Leonardo.ai, Copilot, DeepSeek, etc).
-Crie um Roadmap com passo a passo para o usuário com base no nicho, objetivo, experiência dele e horas disponíveis.
-A resposta deve ser rigorosamente estruturada em JSON, no idioma Português (Brasil). Cada etapa/fase do roadmap DEVE incluir um "megaPrompt" real, extremamente otimizado e detalhado que o usuário possa copiar e colar imediatamente para obter o melhor resultado absoluto na ferramenta sugerida.`;
+    const systemInstruction = `Você é um especialista sênior em engenharia de prompts para monetização digital com IAs gratuitas combinadas (orquestração de IAs).
+Sua missão é criar PACKS DE PROMPTS prontos para copiar e colar, 100% personalizados para o nicho e tipo de produto do usuário.
+Cada megaPrompt deve ser longo (mínimo 150 palavras), extremamente detalhado e profissional, com contexto suficiente para que a IA destinatária entregue resultado de alta qualidade sem ajustes adicionais.
+O usuário não deve precisar pensar — só copiar, colar e executar.
+Responda rigorosamente em JSON, no idioma Português (Brasil).
+Distribua os prompts cobrindo todo o pipeline de produção: pesquisa/planejamento → criação de conteúdo principal → criativos visuais/vídeo → textos de vendas/copy.`;
 
-    const prompt = `Crie um Roadmap Estratégico de Multi-IA para:
+    const prompt = `Crie um Pack de Prompts Estratégico de Multi-IA para:
 - Nicho de Mercado: ${niche}
-- Objetivo de Renda/Formato: ${goal}
+- Tipo de Produto: ${productType}
 - Experiência do Usuário: ${experience || "Iniciante"}
 - Horas Disponíveis por Dia: ${workHours || 2} horas
 
-Explique detalhadamente como orquestrar no mínimo de 2 a 3 IAs gratuitas diferentes de forma complementar (uma para planejar, outra para criar textos profundos, outra para criar imagens/vídeos ou postagens, etc.). Forneça prompts enormes e robustos de nível profissional na propriedade "megaPrompt" de cada fase.`;
+Crie entre 4 e 6 prompts, cada um para uma IA gratuita diferente e complementar (Claude.ai, ChatGPT, Google Gemini, Leonardo.ai, ElevenLabs, DeepSeek — escolha as mais adequadas para este tipo de produto).
+Cada megaPrompt deve mencionar explicitamente o nicho "${niche}" e ser adaptado ao tipo de produto "${productType}".
+O campo "phase" deve descrever o objetivo do prompt (ex: "Pesquisa de Mercado", "Criação do Conteúdo Principal", "Criativo Visual", "Copy de Vendas").
+O campo "aiTool" deve conter o nome exato da IA gratuita recomendada para aquele prompt.
+O campo "proTip" deve conter uma dica prática de como otimizar o resultado naquela ferramenta específica.`;
 
-    const modelsToTry = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
+    const modelsToTry = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-flash-latest"];
     let response = null;
     let lastError = null;
 
@@ -123,7 +129,7 @@ Explique detalhadamente como orquestrar no mínimo de 2 a 3 IAs gratuitas difere
     }
 
     if (!response) {
-      throw lastError || new Error("Falha ao gerar o Roadmap após tentar múltiplos modelos.");
+      throw lastError || new Error("Falha ao gerar o Pack de Prompts após tentar múltiplos modelos.");
     }
 
     const jsonText = response.text || "{}";
@@ -132,6 +138,6 @@ Explique detalhadamente como orquestrar no mínimo de 2 a 3 IAs gratuitas difere
 
   } catch (error: any) {
     console.error("Erro no manipulador do Vercel:", error);
-    return res.status(500).json({ error: error.message || "Erro inesperado ao gerar o Roadmap." });
+    return res.status(500).json({ error: error.message || "Erro inesperado ao gerar o Pack de Prompts." });
   }
 }

@@ -44,9 +44,9 @@ export default function App() {
   const [activeLessonStep, setActiveLessonStep] = useState<number>(0);
   const [isTocOpen, setIsTocOpen] = useState(false);
 
-  // Form states for API Roadmap generator
+  // Form states for API Prompt generator
   const [niche, setNiche] = useState("");
-  const [goal, setGoal] = useState("infoproduto");
+  const [productType, setProductType] = useState("E-book ou Infoproduto PDF na Kiwify/Hotmart");
   const [experience, setExperience] = useState("Iniciante");
   const [workHours, setWorkHours] = useState(2);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -65,7 +65,7 @@ export default function App() {
   const [challengeTasks, setChallengeTasks] = useState([
     { id: "task-1", label: "Definir um nicho vencedor que combine paixão e demanda alta", completed: false },
     { id: "task-2", label: "Escolher e configurar 2 IAs gratuitas complementares", completed: false },
-    { id: "task-3", label: "Gerar um Roadmap Personalizado usando o gerador abaixo", completed: false },
+    { id: "task-3", label: "Gerar um Pack de Prompts personalizado no Gerador de Prompts", completed: false },
     { id: "task-4", label: "Criar uma conta gratuita na Kiwify ou Hotmart", completed: false },
     { id: "task-5", label: "Gerar um mega-prompt de vendas da aula de E-books e rodar no Claude.ai", completed: false },
     { id: "task-6", label: "Criar criativo estético no Canva em menos de 10 minutos", completed: false },
@@ -190,12 +190,12 @@ export default function App() {
       const response = await fetch("/api/generate-roadmap", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ niche, goal, experience, workHours })
+        body: JSON.stringify({ niche, productType, experience, workHours })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || "Houve uma falha na geração do seu plano de renda.");
+        throw new Error(errorData.error || "Houve uma falha na geração do seu Pack de Prompts.");
       }
 
       const data = await response.json();
@@ -300,7 +300,7 @@ export default function App() {
             }`}
           >
             <Terminal className="w-4 h-4 text-pink-400" />
-            <span>Gerador de Roadmap</span>
+            <span>Gerador de Prompts</span>
             <span className="ml-auto text-[9px] bg-pink-500/20 text-pink-300 px-1.5 py-0.5 rounded font-mono font-bold uppercase">
               AI Live
             </span>
@@ -356,7 +356,7 @@ export default function App() {
             <ChevronRight className="w-3 h-3 text-slate-500" />
             <span className="text-indigo-300 text-sm font-semibold capitalize font-mono">
               {activeTab === "masterclass" && "Masterclass Prática"}
-              {activeTab === "roadmap" && "Gerador Estratégico AI"}
+              {activeTab === "roadmap" && "Gerador de Prompts IA"}
               {activeTab === "arsenal" && "Catálogo de Inteligências"}
               {activeTab === "simulator" && "Economia e Desafio 24h"}
               {activeTab === "community" && "Certificado de Conclusão"}
@@ -600,10 +600,10 @@ export default function App() {
                     INTELIGÊNCIA EM TEMPO REAL
                   </span>
                   <h1 className="text-3xl font-display font-extrabold text-white leading-tight">
-                    Gerador de Roadmap Multi-IA
+                    Gerador de Prompts Multi-IA
                   </h1>
                   <p className="text-slate-400 text-sm">
-                    Preencha os dados do seu plano para orquestrar Inteligências Artificiais Gratuitas do seu jeito. Nossa IA gerará uma estratégia detalhada e prontamente escalável no Kiwify / Hotmart, contendo mega-prompts específicos adaptados para o seu projeto.
+                    Informe seu nicho e tipo de produto. Nossa IA gera um pack completo de prompts prontos para copiar e colar em cada ferramenta gratuita — do planejamento até o texto de vendas.
                   </p>
                 </div>
               </div>
@@ -635,19 +635,31 @@ export default function App() {
 
                     <div className="space-y-2">
                       <label className="text-xs font-semibold text-slate-300 block">
-                        Objetivo de Faturamento / Formato
+                        Tipo de Produto
                       </label>
-                      <select
-                        value={goal}
-                        onChange={(e) => setGoal(e.target.value)}
-                        className="w-full bg-[#030611] border border-white/10 rounded-xl px-4 py-3 text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-all font-sans"
-                      >
-                        <option value="e-book em Plataforma">Venda de E-book Premium (R$ 19 - R$ 97)</option>
-                        <option value="Curso Rápido Multi-Módulos Hotmart">Mini-Curso Rápido na Hotmart (R$ 47 - R$ 97)</option>
-                        <option value="Vídeo Reels/TikTok Dark Sem Aparecer">Coprodução de Canal Dark Viral (Reels/TikTok/Shorts)</option>
-                        <option value="Freelancer Sênior de Artigos/SEO">Agência de Freelancer Multi-IA de Rápida Resolução</option>
-                        <option value="Agência de Copywriting sob Demanda">Prestação de Copywriting e Postagens no Instagram</option>
-                      </select>
+                      <div className="grid grid-cols-2 gap-2">
+                        {[
+                          { value: "E-book ou Infoproduto PDF na Kiwify/Hotmart", label: "E-book & Infoproduto", desc: "Kiwify / Hotmart", icon: BookOpen, color: "indigo" },
+                          { value: "Canal Dark no YouTube ou TikTok sem aparecer", label: "Canal Dark", desc: "YouTube / TikTok / Reels", icon: Youtube, color: "rose" },
+                          { value: "Freelance ou Serviço High-Ticket no Workana/Fiverr", label: "Freelance High-Ticket", desc: "Workana / Fiverr", icon: Briefcase, color: "amber" },
+                          { value: "Conteúdo para Instagram, TikTok e Redes Sociais", label: "Redes Sociais", desc: "Instagram / TikTok / X", icon: Users, color: "cyan" },
+                        ].map(({ value, label, desc, icon: Icon, color }) => (
+                          <button
+                            type="button"
+                            key={value}
+                            onClick={() => setProductType(value)}
+                            className={`p-3 rounded-xl border text-left transition-all flex flex-col gap-1 ${
+                              productType === value
+                                ? `bg-${color}-600/20 border-${color}-500 text-white`
+                                : "bg-[#030611]/80 border-white/5 text-slate-400 hover:border-slate-700"
+                            }`}
+                          >
+                            <Icon className={`w-4 h-4 ${productType === value ? `text-${color}-400` : "text-slate-500"}`} />
+                            <span className="text-xs font-semibold leading-tight">{label}</span>
+                            <span className="text-[10px] text-slate-500 font-mono">{desc}</span>
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
                     <div className="space-y-2">
@@ -701,7 +713,7 @@ export default function App() {
                       ) : (
                         <>
                           <Sparkles className="w-4 h-4 text-amber-300" />
-                          <span>Gerar Plano de Renda</span>
+                          <span>Gerar Pack de Prompts</span>
                         </>
                       )}
                     </button>
@@ -721,7 +733,7 @@ export default function App() {
                     <div className="p-4 bg-slate-950/80 rounded-xl border border-white/5 flex gap-3 text-xs leading-relaxed text-slate-400">
                       <HelpCircle className="w-8 h-8 text-[#6366f1] shrink-0" />
                       <div>
-                        A API utiliza o modelo <strong>Gemini 3.5 Flash</strong> em modo estruturado para retornar dados de processos de escala prontos para copiar.
+                        A API utiliza o modelo <strong>Gemini 2.0 Flash</strong> para gerar prompts detalhados e prontos para copiar e colar em cada IA gratuita.
                       </div>
                     </div>
                   </div>
@@ -738,9 +750,9 @@ export default function App() {
                           <Terminal className="w-8 h-8" />
                         </div>
                         <div className="space-y-1 max-w-md">
-                          <h3 className="text-lg font-bold text-white">Seu Plano customizado aparecerá aqui</h3>
+                          <h3 className="text-lg font-bold text-white">Seu Pack de Prompts aparecerá aqui</h3>
                           <p className="text-slate-400 text-xs">
-                            Configure o nicho de seu projeto e as suas preferências ao lado para fazer com que as Inteligências Artificiais modelem seu infoproduto de forma complementar.
+                            Escolha o tipo de produto, informe seu nicho e clique em Gerar. Você receberá prompts prontos para copiar e colar em cada IA gratuita.
                           </p>
                         </div>
                       </div>
@@ -753,9 +765,9 @@ export default function App() {
                           </div>
                         </div>
                         <div className="space-y-2 max-w-sm">
-                          <h3 className="text-lg font-bold text-white animate-pulse">Sintetizando Conhecimento...</h3>
+                          <h3 className="text-lg font-bold text-white animate-pulse">Criando seus Prompts...</h3>
                           <p className="text-slate-400 text-xs leading-relaxed">
-                            Nossos servidores estão consultando o modelo de orquestração gratuita para desenhar os mega-prompts adaptados ao seu nicho de mercado.
+                            A IA está montando um pack completo de prompts adaptados ao seu nicho. Isso pode levar alguns segundos.
                           </p>
                         </div>
                       </div>
@@ -771,8 +783,8 @@ export default function App() {
                         <Sparkles className="w-5 h-5 text-indigo-400 animate-pulse" />
                       </div>
                       <div>
-                        <p className="text-xs text-white font-semibold">Parabéns! Seu Plano Especializado está pronto.</p>
-                        <p className="text-[10px] text-slate-400 font-mono">Totalmente personalizado para o seu objetivo e nível de experiência.</p>
+                        <p className="text-xs text-white font-semibold">Pack de Prompts pronto! Copie e cole em cada IA.</p>
+                        <p className="text-[10px] text-slate-400 font-mono">Totalmente personalizado para o seu nicho e tipo de produto.</p>
                       </div>
                     </div>
                     <button
@@ -780,7 +792,7 @@ export default function App() {
                       className="px-4 py-2 bg-pink-500/10 hover:bg-pink-500/25 text-pink-300 border border-pink-500/20 rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer"
                     >
                       <Sliders className="w-3.5 h-3.5" />
-                      <span>Gerar Novo / Ajustar Dados</span>
+                      <span>Gerar Novo Pack</span>
                     </button>
                   </div>
 
@@ -820,73 +832,75 @@ export default function App() {
                     </div>
                   </div>
 
-                  {/* Steps with MegaPrompts (Full width detailed 2-column grid!) */}
+                  {/* Prompts Pack — 1 card por IA, prompt como hero */}
                   <div className="space-y-4">
-                    <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest pl-1">
-                      PASSOS DA ESTEIRA DIGITAL PREVISTA
-                    </h3>
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest pl-1">
+                        PACK DE PROMPTS — COPIE E COLE EM CADA IA
+                      </h3>
+                      <span className="text-[10px] text-slate-500 font-mono">
+                        {generatedRoadmap.steps.length} prompts gerados
+                      </span>
+                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-5">
                       {generatedRoadmap.steps.map((step, idx) => (
-                        <div key={idx} className="p-6 bg-slate-900 border border-white/5 rounded-2xl space-y-4 flex flex-col justify-between">
-                          
-                          <div className="space-y-4">
-                            <div className="flex flex-wrap items-center gap-3">
-                              <span className="w-7 h-7 rounded-full bg-indigo-600 text-white font-mono text-sm font-bold flex items-center justify-center">
-                                {idx + 1}
-                              </span>
-                              <h4 className="text-sm font-bold text-white font-display">
+                        <div key={idx} className="p-6 bg-slate-900 border border-white/5 rounded-2xl space-y-4">
+
+                          {/* Header: número + fase + IA */}
+                          <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-white/5">
+                            <span className="w-7 h-7 rounded-full bg-indigo-600 text-white font-mono text-sm font-bold flex items-center justify-center shrink-0">
+                              {idx + 1}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <h4 className="text-sm font-bold text-white font-display leading-tight">
                                 {step.phase}
                               </h4>
-                              <span className="ml-auto text-[10px] bg-[#030611] px-2.5 py-0.5 text-pink-300 border border-pink-500/10 rounded-full font-mono">
-                                Ferramenta: <strong className="text-white">{step.aiTool}</strong>
-                              </span>
-                            </div>
-
-                            <p className="text-xs text-slate-300 leading-relaxed">
-                              {step.description}
-                            </p>
-
-                            {/* Ready Prompts with copying capability */}
-                            <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 space-y-2">
-                              <div className="flex items-center justify-between">
-                                <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold">
-                                  Mega-Prompt Adaptado (Passo {idx + 1})
-                                </span>
-                                <span className="text-[10px] text-pink-300 font-mono">{step.aiTool}</span>
-                              </div>
-                              
-                              <p className="font-mono text-[10px] text-emerald-300 whitespace-pre-wrap select-all bg-black/40 p-3 rounded-lg border border-white/5 leading-relaxed overflow-y-auto max-h-[140px]">
-                                {step.megaPrompt}
+                              <p className="text-xs text-slate-400 mt-0.5 leading-relaxed">
+                                {step.description}
                               </p>
-
-                              <div className="mt-3 flex justify-between items-center pr-1 h-8">
-                                <span className="text-[9px] text-slate-500 italic max-w-xs leading-normal">
-                                  *Cole diretamente nesta IA para colher resultados impecáveis.
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => handleCopyToClipboard(step.megaPrompt, `api-prompt-${idx}`)}
-                                  className="px-3 py-1.5 bg-[#6366f1]/20 hover:bg-[#6366f1] text-[#6366f1] hover:text-white rounded-lg text-[10px] font-semibold flex items-center gap-1 transition-all outline-none cursor-pointer active:scale-95"
-                                >
-                                  {copiedPromptId === `api-prompt-${idx}` ? (
-                                    <>
-                                      <Check className="w-3.5 h-3.5 text-emerald-400" />
-                                      Copiado!
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Copy className="w-3.5 h-3.5" />
-                                      Copiar prompt adaptado
-                                    </>
-                                  )}
-                                </button>
-                              </div>
                             </div>
+                            <span className="px-3 py-1.5 bg-pink-500/10 text-pink-300 border border-pink-500/20 rounded-full text-xs font-mono font-bold shrink-0">
+                              {step.aiTool}
+                            </span>
                           </div>
 
-                          <div className="p-3 bg-indigo-500/5 rounded-xl border border-white/5 flex gap-2 text-xs text-indigo-400 mt-4 self-stretch">
-                            <span className="font-bold text-indigo-400 font-mono shrink-0">💡 SUPER DICA:</span>
+                          {/* Prompt — hero element */}
+                          <div className="space-y-3">
+                            <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold tracking-wider">
+                              Prompt — copie e cole em: <strong className="text-pink-300">{step.aiTool}</strong>
+                            </span>
+                            <div className="p-4 bg-black/60 rounded-xl border border-white/5 border-l-2 border-l-indigo-500">
+                              <p className="font-mono text-xs text-emerald-300 whitespace-pre-wrap select-all leading-relaxed">
+                                {step.megaPrompt}
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleCopyToClipboard(step.megaPrompt, `api-prompt-${idx}`)}
+                              className={`w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-[0.99] ${
+                                copiedPromptId === `api-prompt-${idx}`
+                                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30"
+                                  : "bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20"
+                              }`}
+                            >
+                              {copiedPromptId === `api-prompt-${idx}` ? (
+                                <>
+                                  <Check className="w-4 h-4" />
+                                  Prompt Copiado!
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-4 h-4" />
+                                  Copiar Prompt para {step.aiTool}
+                                </>
+                              )}
+                            </button>
+                          </div>
+
+                          {/* ProTip */}
+                          <div className="p-3 bg-indigo-500/5 rounded-xl border border-indigo-500/10 flex gap-2 text-xs text-indigo-300">
+                            <span className="font-bold font-mono shrink-0">💡 DICA:</span>
                             <span className="italic">{step.proTip}</span>
                           </div>
 

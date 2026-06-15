@@ -25,6 +25,7 @@ import { GeneratedEbook } from "./types";
 
 type Tab = "ebook" | "arsenal";
 type Tom = "vendas" | "casual" | "educativo" | "motivacional";
+type Tamanho = "rapido" | "padrao" | "detalhado";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>("ebook");
@@ -34,6 +35,7 @@ export default function App() {
   const [nicho, setNicho] = useState("");
   const [tom, setTom] = useState<Tom>("casual");
   const [numCapitulos, setNumCapitulos] = useState(7);
+  const [tamanho, setTamanho] = useState<Tamanho>("padrao");
   const [isGenerating, setIsGenerating] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [generatedEbook, setGeneratedEbook] = useState<GeneratedEbook | null>(null);
@@ -99,7 +101,7 @@ export default function App() {
       const res = await fetch("/api/generate-ebook", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tema, nicho, tom, numCapitulos }),
+        body: JSON.stringify({ tema, nicho, tom, numCapitulos, tamanho }),
       });
 
       if (!res.ok) {
@@ -392,6 +394,35 @@ export default function App() {
                             }`}
                           >
                             {n}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Tamanho */}
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+                        <FileText className="w-3.5 h-3.5 text-gray-400" />
+                        Tamanho do E-book
+                      </label>
+                      <div className="flex gap-2">
+                        {([
+                          { id: "rapido",    label: "Rápido",    desc: "~15 pág." },
+                          { id: "padrao",    label: "Padrão",    desc: "~30 pág." },
+                          { id: "detalhado", label: "Detalhado", desc: "~50 pág." },
+                        ] as { id: Tamanho; label: string; desc: string }[]).map(({ id, label, desc }) => (
+                          <button
+                            key={id}
+                            type="button"
+                            onClick={() => setTamanho(id)}
+                            className={`flex-1 py-2 px-1 rounded-lg border transition-all flex flex-col items-center gap-0.5 ${
+                              tamanho === id
+                                ? "bg-[#2563EB] text-white border-[#2563EB]"
+                                : "bg-gray-50 text-gray-600 border-gray-200 hover:border-[#3B82F6]"
+                            }`}
+                          >
+                            <span className="text-xs font-bold">{label}</span>
+                            <span className={`text-[10px] ${tamanho === id ? "text-blue-100" : "text-gray-400"}`}>{desc}</span>
                           </button>
                         ))}
                       </div>

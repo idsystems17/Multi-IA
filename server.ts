@@ -16,11 +16,7 @@ function getGeminiClient(): GoogleGenAI {
     }
     aiClient = new GoogleGenAI({
       apiKey,
-      httpOptions: {
-        headers: {
-          'User-Agent': 'aistudio-build',
-        }
-      }
+      httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
     });
   }
   return aiClient;
@@ -34,7 +30,7 @@ app.use(express.json());
 // API: Generate complete e-book
 app.post("/api/generate-ebook", async (req, res) => {
   try {
-    const { tema, nicho, tom, numCapitulos } = req.body;
+    const { tema, nicho, tom, numCapitulos, tamanho } = req.body;
 
     if (!tema || !nicho) {
       return res.status(400).json({ error: "Por favor, informe o tema e o nicho do e-book." });
@@ -49,19 +45,31 @@ app.post("/api/generate-ebook", async (req, res) => {
       motivacional: "inspirador, energético e empoderador"
     };
 
+    // Tamanho define profundidade por capítulo
+    const tamanhoMap: Record<string, { palavras: number; paginas: string }> = {
+      rapido:    { palavras: 150, paginas: "12 a 18 páginas" },
+      padrao:    { palavras: 280, paginas: "25 a 35 páginas" },
+      detalhado: { palavras: 500, paginas: "45 a 60 páginas" },
+    };
+
+    const tamanhoConfig = tamanhoMap[tamanho] || tamanhoMap["padrao"];
     const tomDescricao = tomsMap[tom] || "informal e direto";
+    const capitulos = numCapitulos || 7;
 
     const systemInstruction = `Você é um ghostwriter profissional especializado em e-books de infoprodutos digitais para o mercado brasileiro.
-Escreva conteúdo rico, fluído e profissional. Cada capítulo deve ter no mínimo 350 palavras de texto real em parágrafos (não listas de tópicos simples).
-Use exemplos práticos, metáforas e situações do dia a dia do público-alvo para tornar o conteúdo concreto e aplicável.
-Escreva sempre em Português (Brasil). O texto deve parecer escrito por um especialista humano, não por IA.`;
+Escreva conteúdo fluído e profissional em parágrafos corridos. Seja direto — não use listas de tópicos como corpo do capítulo.
+Use exemplos práticos do dia a dia do público-alvo informado.
+Escreva sempre em Português (Brasil). O texto deve parecer escrito por um especialista humano.
+IMPORTANTE: Gere JSON válido e completo. Não truncar nenhum campo.`;
 
     const prompt = `Crie um e-book completo sobre: "${tema}"
-Público-alvo / Nicho: ${nicho}
-Tom da escrita: ${tomDescricao}
-Número de capítulos: ${numCapitulos || 7}
+Público-alvo: ${nicho}
+Tom: ${tomDescricao}
+Número de capítulos: ${capitulos}
+Profundidade por capítulo: aproximadamente ${tamanhoConfig.palavras} palavras de texto corrido por capítulo
+Total estimado: ${tamanhoConfig.paginas}
 
-O e-book deve ser completo, com conteúdo real e aprofundado em cada capítulo. Cada capítulo precisa ter no mínimo 350 palavras de texto corrido, não apenas tópicos. Inclua exemplos práticos do dia a dia do público "${nicho}".`;
+Escreva parágrafos fluídos em cada capítulo, não listas de tópicos. Inclua exemplos do dia a dia de "${nicho}".`;
 
     const modelsToTry = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
     let response = null;
@@ -76,39 +84,36 @@ O e-book deve ser completo, com conteúdo real e aprofundado em cada capítulo. 
           config: {
             systemInstruction,
             temperature: 0.75,
+            maxOutputTokens: 8192,
             responseMimeType: "application/json",
             responseSchema: {
               type: Type.OBJECT,
               properties: {
-                title: { type: Type.STRING, description: "Título chamativo e irresistível para o e-book" },
-                subtitle: { type: Type.STRING, description: "Subtítulo complementar que detalha a proposta de valor" },
-                intro: { type: Type.STRING, description: "Introdução envolvente com no mínimo 200 palavras, apresentando o problema e a proposta do e-book" },
+                title:    { type: Type.STRING, description: "Título chamativo para o e-book" },
+                subtitle: { type: Type.STRING, description: "Subtítulo que detalha a proposta de valor" },
+                intro:    { type: Type.STRING, description: "Introdução de 100 a 150 palavras apresentando o tema" },
                 tableOfContents: {
                   type: Type.ARRAY,
                   items: { type: Type.STRING },
-                  description: "Lista com os títulos de todos os capítulos"
+                  description: "Títulos de todos os capítulos"
                 },
                 chapters: {
                   type: Type.ARRAY,
                   items: {
                     type: Type.OBJECT,
                     properties: {
-                      number: { type: Type.INTEGER, description: "Número do capítulo" },
-                      title: { type: Type.STRING, description: "Título do capítulo" },
-                      content: { type: Type.STRING, description: "Conteúdo completo do capítulo, mínimo 350 palavras em parágrafos fluídos" },
-                      keyPoints: {
-                        type: Type.ARRAY,
-                        items: { type: Type.STRING },
-                        description: "3 pontos-chave do capítulo (resumo prático)"
-                      }
+                      number:    { type: Type.INTEGER },
+                      title:     { type: Type.STRING },
+                      content:   { type: Type.STRING, description: `Conteúdo do capítulo em parágrafos corridos, aproximadamente ${tamanhoConfig.palavras} palavras` },
+                      keyPoints: { type: Type.ARRAY, items: { type: Type.STRING }, description: "3 pontos-chave do capítulo" }
                     },
                     required: ["number", "title", "content", "keyPoints"]
                   }
                 },
-                conclusion: { type: Type.STRING, description: "Conclusão motivadora com no mínimo 150 palavras" },
-                cta: { type: Type.STRING, description: "Chamada para ação final — o que o leitor deve fazer agora" },
-                estimatedPages: { type: Type.STRING, description: "Estimativa de páginas (ex: 28 páginas)" },
-                wordCount: { type: Type.STRING, description: "Estimativa de palavras (ex: 7.200 palavras)" }
+                conclusion:     { type: Type.STRING, description: "Conclusão motivadora de 80 a 120 palavras" },
+                cta:            { type: Type.STRING, description: "Chamada para ação final — o que o leitor deve fazer agora" },
+                estimatedPages: { type: Type.STRING, description: `Estimativa de páginas — use "${tamanhoConfig.paginas}"` },
+                wordCount:      { type: Type.STRING, description: "Estimativa de palavras totais" }
               },
               required: ["title", "subtitle", "intro", "tableOfContents", "chapters", "conclusion", "cta", "estimatedPages", "wordCount"]
             }

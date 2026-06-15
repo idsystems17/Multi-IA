@@ -305,7 +305,7 @@ export default function App() {
               <div>
                 <h1 className="text-2xl font-display font-bold text-[#1F2937]">Gerador de E-book com IA</h1>
                 <p className="text-gray-500 text-sm mt-1">
-                  Informe o tema e o público. A IA escreve o e-book completo — capítulo por capítulo — pronto para vender na Kiwify ou Hotmart.
+                  Informe o tema e o público. A IA escreve o e-book completo — capítulo por capítulo — pronto para vender na Kiwify, Hotmart ou qualquer outra plataforma.
                 </p>
               </div>
 

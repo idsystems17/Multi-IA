@@ -24,9 +24,9 @@ const tomsMap: Record<string, string> = {
 };
 
 const tamanhoMap: Record<string, { palavras: number; paginas: string }> = {
-  rapido:    { palavras: 80,  paginas: "12 a 18 páginas" },
-  padrao:    { palavras: 160, paginas: "25 a 35 páginas" },
-  detalhado: { palavras: 260, paginas: "40 a 55 páginas" },
+  rapido:    { palavras: 350, paginas: "12 a 18 páginas" },
+  padrao:    { palavras: 550, paginas: "25 a 35 páginas" },
+  detalhado: { palavras: 800, paginas: "40 a 55 páginas" },
 };
 
 const modelsToTry = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
@@ -99,7 +99,7 @@ IMPORTANTE: Retorne SOMENTE o JSON abaixo, completo e válido, sem texto extra, 
           contents: prompt,
           config: {
             temperature: 0.75,
-            maxOutputTokens: 8192,
+            maxOutputTokens: 16384,
           },
         });
 

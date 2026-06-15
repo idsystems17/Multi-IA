@@ -232,8 +232,8 @@ export default function App() {
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
-              <div className="font-display font-bold text-lg text-[#1F2937] leading-none">Multi-IA</div>
-              <div className="text-[11px] text-gray-400 mt-0.5 font-medium">Gerador de E-books</div>
+              <div className="font-display font-bold text-lg text-[#1F2937] leading-none">E-book Pronto</div>
+              <div className="text-[11px] text-gray-400 mt-0.5 font-medium">Gerador com IA</div>
             </div>
           </div>
         </div>
@@ -271,7 +271,7 @@ export default function App() {
         {/* Footer badge */}
         <div className="p-4 m-4 bg-blue-50 rounded-xl border border-blue-100">
           <p className="text-xs text-[#2563EB] font-semibold leading-relaxed">
-            🔒 Acesso liberado por 1 ano a partir da sua compra.
+            🔒 E-book Pronto · Acesso por 1 ano.
           </p>
         </div>
       </aside>
@@ -282,7 +282,7 @@ export default function App() {
         {/* Header */}
         <header className="h-16 px-8 bg-white border-b border-gray-200 flex items-center justify-between sticky top-0 z-20">
           <div className="flex items-center gap-2 text-sm">
-            <span className="text-gray-400 font-medium">Multi-IA</span>
+            <span className="text-gray-400 font-medium">E-book Pronto</span>
             <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
             <span className="text-[#2563EB] font-semibold">
               {activeTab === "ebook" ? "Gerador de E-book" : "Arsenal de IAs"}

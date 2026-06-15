@@ -1,53 +1,18 @@
-export interface Lesson {
-  id: string;
+export interface EbookChapter {
+  number: number;
   title: string;
-  category: "fundamentos" | "youtube_dark" | "ebooks" | "freelance";
-  categoryLabel: string;
-  duration: string;
-  difficulty: "Fácil" | "Médio" | "Avançado";
-  summary: string;
-  iconName: string;
-  content: string; // Markdown or structured rich text
-  stepByStep: {
-    instruction: string;
-    targetAI: string;
-    practicalPrompt: string;
-  }[];
+  content: string;
+  keyPoints: string[];
 }
 
-export interface RoadmapStep {
-  phase: string;
-  aiTool: string;
-  description: string;
-  megaPrompt: string;
-  proTip: string;
-}
-
-export interface GeneratedRoadmap {
+export interface GeneratedEbook {
   title: string;
-  summary: string;
-  estimatedDailyIncome: string;
-  complexity: string;
-  toolsUsed: string[];
-  steps: RoadmapStep[];
-  monetizationStrategy: {
-    platform: string;
-    pricingStrategy: string;
-    scalingPlan: string;
-  };
-}
-
-export interface IncomeGoal {
-  niche: string;
-  goal: string;
-  experience: string;
-  workHours: number;
-}
-
-export interface SavedPlan {
-  id: string;
-  title: string;
-  date: string;
-  incomeTarget: string;
-  roadmap: GeneratedRoadmap;
+  subtitle: string;
+  intro: string;
+  tableOfContents: string[];
+  chapters: EbookChapter[];
+  conclusion: string;
+  cta: string;
+  estimatedPages: string;
+  wordCount: string;
 }

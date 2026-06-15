@@ -20,10 +20,17 @@ import {
   Download,
   RefreshCw,
   AlertCircle,
+  Rocket,
+  Palette,
+  DollarSign,
+  ShoppingBag,
+  Megaphone,
+  ExternalLink,
+  Star,
 } from "lucide-react";
 import { GeneratedEbook } from "./types";
 
-type Tab = "ebook" | "arsenal";
+type Tab = "ebook" | "arsenal" | "monetize";
 type Tom = "vendas" | "casual" | "educativo" | "motivacional";
 type Tamanho = "rapido" | "padrao" | "detalhado";
 
@@ -265,7 +272,22 @@ export default function App() {
             <Layers className="w-4 h-4 shrink-0" />
             <span>Arsenal de IAs</span>
             <span className="ml-auto text-[9px] bg-blue-50 text-[#2563EB] px-1.5 py-0.5 rounded font-bold uppercase">
-              BÔNUS
+              BÔNUS 1
+            </span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("monetize")}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-sm font-medium transition-all ${
+              activeTab === "monetize"
+                ? "bg-[#2563EB] text-white shadow-sm"
+                : "text-gray-500 hover:bg-gray-100 hover:text-[#1F2937]"
+            }`}
+          >
+            <Rocket className="w-4 h-4 shrink-0" />
+            <span>Monetize seu E-book</span>
+            <span className="ml-auto text-[9px] bg-amber-50 text-amber-600 px-1.5 py-0.5 rounded font-bold uppercase">
+              BÔNUS 2
             </span>
           </button>
         </nav>
@@ -287,7 +309,7 @@ export default function App() {
             <span className="text-gray-400 font-medium">E-book Pronto</span>
             <ChevronRight className="w-3.5 h-3.5 text-gray-300" />
             <span className="text-[#2563EB] font-semibold">
-              {activeTab === "ebook" ? "Gerador de E-book" : "Arsenal de IAs"}
+              {activeTab === "ebook" ? "Gerador de E-book" : activeTab === "arsenal" ? "Arsenal de IAs" : "Monetize seu E-book"}
             </span>
           </div>
           <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-full">
@@ -751,6 +773,267 @@ export default function App() {
 
                   </div>
                 ))}
+              </div>
+
+            </div>
+          )}
+
+          {/* ─── TAB: MONETIZE ─── */}
+          {activeTab === "monetize" && (
+            <div className="space-y-8">
+
+              {/* Header */}
+              <div>
+                <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold px-3 py-1 rounded-full mb-3">
+                  <Star className="w-3 h-3" /> BÔNUS 2 EXCLUSIVO
+                </div>
+                <h1 className="text-2xl font-display font-bold text-[#1F2937]">O que fazer depois de gerar seu e-book?</h1>
+                <p className="text-gray-500 text-sm mt-1 max-w-2xl">
+                  Você acabou de criar algo que pode gerar renda passiva. Aqui estão os 5 passos para transformar esse e-book num produto digital que vende enquanto você dorme.
+                </p>
+              </div>
+
+              {/* Steps */}
+              <div className="space-y-5">
+
+                {/* PASSO 1 — FORMATAR */}
+                <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-violet-100 flex items-center justify-center shrink-0">
+                      <FileText className="w-5 h-5 text-violet-600" />
+                    </div>
+                    <div className="flex-1 space-y-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-bold text-violet-600 bg-violet-50 px-2 py-0.5 rounded">PASSO 1</span>
+                          <h2 className="font-bold text-[#1F2937]">Formate o seu e-book</h2>
+                        </div>
+                        <p className="text-sm text-gray-500">Copie o conteúdo gerado e cole em uma das ferramentas abaixo para criar um PDF profissional.</p>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-sm text-[#1F2937]">Google Docs</span>
+                            <span className="text-[10px] bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-full font-bold">GRÁTIS</span>
+                          </div>
+                          <p className="text-xs text-gray-500">Cole o conteúdo, ajuste a fonte (Merriweather ou Georgia, 11pt), adicione margens de 2,5cm e exporte em <strong>Arquivo → Baixar → PDF</strong>.</p>
+                          <p className="text-xs text-[#2563EB] font-medium">Dica: use a função "Sumário Automático" para o índice ficar navegável.</p>
+                        </div>
+                        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-sm text-[#1F2937]">Canva (template e-book)</span>
+                            <span className="text-[10px] bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-full font-bold">GRÁTIS</span>
+                          </div>
+                          <p className="text-xs text-gray-500">No Canva, pesquise <strong>"ebook"</strong> nos templates. Escolha um modelo, cole o conteúdo nas caixas de texto e publique em PDF de alta qualidade.</p>
+                          <p className="text-xs text-[#2563EB] font-medium">Dica: templates com fundo branco vendem mais — parecem mais profissionais.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* PASSO 2 — CAPA */}
+                <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-rose-100 flex items-center justify-center shrink-0">
+                      <Palette className="w-5 h-5 text-rose-500" />
+                    </div>
+                    <div className="flex-1 space-y-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-bold text-rose-500 bg-rose-50 px-2 py-0.5 rounded">PASSO 2</span>
+                          <h2 className="font-bold text-[#1F2937]">Crie uma capa que vende</h2>
+                        </div>
+                        <p className="text-sm text-gray-500">A capa é o primeiro contato do comprador com o produto. Precisa parecer profissional — e isso não precisa custar nada.</p>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-sm text-[#1F2937]">Canva — Capa de E-book</span>
+                            <span className="text-[10px] bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-full font-bold">GRÁTIS</span>
+                          </div>
+                          <p className="text-xs text-gray-500">Pesquise <strong>"capa de ebook"</strong> no Canva. Tamanho ideal: <strong>1600 × 2400 px</strong>. Coloque o título, subtítulo e seu nome. Exporte em PNG.</p>
+                        </div>
+                        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-sm text-[#1F2937]">Leonardo.ai — Capa com IA</span>
+                            <span className="text-[10px] bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded-full font-bold">GRÁTIS</span>
+                          </div>
+                          <p className="text-xs text-gray-500">Use esse prompt no Leonardo.ai para gerar um background impactante para sua capa:</p>
+                          <div className="p-2 bg-white border border-gray-200 rounded-lg font-mono text-[10px] text-gray-600 leading-relaxed select-all">
+                            Minimalist professional ebook cover background, [COR] gradient, geometric abstract shapes, clean modern design, high resolution, no text, 1600x2400px
+                          </div>
+                          <button
+                            onClick={() => handleCopy("Minimalist professional ebook cover background, [COR] gradient, geometric abstract shapes, clean modern design, high resolution, no text, 1600x2400px", "capa-prompt")}
+                            className={`w-full py-1.5 rounded-lg text-xs font-semibold border flex items-center justify-center gap-1.5 transition-all ${copiedId === "capa-prompt" ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-white text-[#2563EB] border-[#2563EB] hover:bg-blue-50"}`}
+                          >
+                            {copiedId === "capa-prompt" ? <><Check className="w-3 h-3" /> Copiado!</> : <><Copy className="w-3 h-3" /> Copiar prompt</>}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* PASSO 3 — PRECIFICAR */}
+                <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0">
+                      <DollarSign className="w-5 h-5 text-emerald-600" />
+                    </div>
+                    <div className="flex-1 space-y-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">PASSO 3</span>
+                          <h2 className="font-bold text-[#1F2937]">Precifique de forma estratégica</h2>
+                        </div>
+                        <p className="text-sm text-gray-500">Preço muito baixo desvaloriza. Preço muito alto trava as vendas. Veja o que funciona no mercado brasileiro.</p>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 text-center space-y-1">
+                          <span className="text-2xl font-bold text-[#2563EB]">R$27</span>
+                          <p className="text-xs font-semibold text-gray-600">Entrada / Validação</p>
+                          <p className="text-xs text-gray-500">Ideal para o primeiro produto. Vende fácil e gera provas sociais rápido.</p>
+                        </div>
+                        <div className="p-4 bg-blue-50 rounded-xl border border-blue-200 text-center space-y-1 ring-2 ring-[#2563EB]">
+                          <span className="text-2xl font-bold text-[#2563EB]">R$47–R$67</span>
+                          <p className="text-xs font-semibold text-[#2563EB]">Recomendado</p>
+                          <p className="text-xs text-gray-600">Ponto ideal: alta conversão + margem boa. Funciona para a maioria dos nichos.</p>
+                        </div>
+                        <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 text-center space-y-1">
+                          <span className="text-2xl font-bold text-gray-700">R$97+</span>
+                          <p className="text-xs font-semibold text-gray-600">Premium / Autoridade</p>
+                          <p className="text-xs text-gray-500">Para nichos como saúde, finanças e negócios, com bons depoimentos.</p>
+                        </div>
+                      </div>
+                      <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-800 leading-relaxed">
+                        <strong>Dica de order bump:</strong> Adicione um complemento por R$17 a R$27 na página de pagamento (ex: "Pack de prompts bônus", "Checklist de aplicação", "Planilha de controle"). Isso pode aumentar o ticket médio em 30–40% sem esforço extra de divulgação.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* PASSO 4 — PUBLICAR */}
+                <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center shrink-0">
+                      <ShoppingBag className="w-5 h-5 text-[#2563EB]" />
+                    </div>
+                    <div className="flex-1 space-y-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-bold text-[#2563EB] bg-blue-50 px-2 py-0.5 rounded">PASSO 4</span>
+                          <h2 className="font-bold text-[#1F2937]">Publique e comece a vender</h2>
+                        </div>
+                        <p className="text-sm text-gray-500">Plataformas de infoprodutos entregam o PDF automaticamente ao comprador — você não precisa fazer nada manualmente.</p>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {[
+                          { name: "Kiwify", badge: "Recomendada", color: "emerald", taxa: "Taxa: ~5,49% + R$1,00 por venda", desc: "A melhor para iniciantes no Brasil. Interface simples, pagamento em D+15, suporte em português.", url: "kiwify.com.br" },
+                          { name: "Hotmart", badge: "Mais popular", color: "orange", taxa: "Taxa: ~9,9% por venda", desc: "Maior marketplace de infoprodutos da América Latina. Ótimo para alcançar afiliados que vendem por você.", url: "hotmart.com" },
+                          { name: "Eduzz", badge: "Boa opção", color: "blue", taxa: "Taxa: ~8,9% por venda", desc: "Boa plataforma com sistema de afiliados forte e checkout customizável.", url: "eduzz.com" },
+                          { name: "Gumroad", badge: "Internacional", color: "violet", taxa: "Taxa: ~10% por venda", desc: "Ideal para vender em dólar ou euro para audiência fora do Brasil. Ótimo para nichos em inglês.", url: "gumroad.com" },
+                        ].map((p) => (
+                          <div key={p.name} className="p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="font-semibold text-sm text-[#1F2937]">{p.name}</span>
+                              <span className={`text-[10px] bg-${p.color}-50 text-${p.color}-600 border border-${p.color}-100 px-2 py-0.5 rounded-full font-bold`}>{p.badge}</span>
+                            </div>
+                            <p className="text-[10px] font-semibold text-gray-400">{p.taxa}</p>
+                            <p className="text-xs text-gray-500">{p.desc}</p>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="p-4 bg-gray-50 border border-gray-100 rounded-xl">
+                        <p className="text-xs font-bold text-gray-500 mb-2 uppercase tracking-wide">Como configurar na Kiwify (passo a passo):</p>
+                        <ol className="text-xs text-gray-600 space-y-1 list-decimal list-inside">
+                          <li>Crie sua conta grátis em <span className="text-[#2563EB] font-medium">kiwify.com.br</span></li>
+                          <li>Clique em <strong>Novo Produto → Ebook/Material digital</strong></li>
+                          <li>Faça upload do PDF da capa e do arquivo do e-book</li>
+                          <li>Configure preço, nome e descrição do produto</li>
+                          <li>Ative o checkout e copie o link de vendas</li>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* PASSO 5 — DIVULGAR */}
+                <div className="bg-white rounded-2xl border border-gray-200 p-6 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-pink-100 flex items-center justify-center shrink-0">
+                      <Megaphone className="w-5 h-5 text-pink-500" />
+                    </div>
+                    <div className="flex-1 space-y-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-xs font-bold text-pink-500 bg-pink-50 px-2 py-0.5 rounded">PASSO 5</span>
+                          <h2 className="font-bold text-[#1F2937]">Divulgue sem gastar nada</h2>
+                        </div>
+                        <p className="text-sm text-gray-500">Você não precisa de anúncios pagos para começar. Canais orgânicos geram as primeiras vendas — e são gratuitos.</p>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {[
+                          {
+                            canal: "Instagram — Carrossel",
+                            cor: "pink",
+                            prompt: `Crie um carrossel de 5 slides para Instagram sobre o tema "[TEMA DO SEU EBOOK]". Slide 1: título polêmico ou pergunta que gera curiosidade. Slides 2-4: uma dica prática por slide do conteúdo do e-book. Slide 5: CTA com o link de compra. Tom: informal e direto. Nicho: [NICHO].`,
+                            dica: "Poste 3x por semana. O slide 1 define o alcance — teste títulos diferentes."
+                          },
+                          {
+                            canal: "Pinterest — Pins Virais",
+                            cor: "red",
+                            prompt: `Crie 5 descrições de pins para Pinterest sobre "[TEMA DO SEU EBOOK]" otimizadas para buscas. Cada pin deve ter: título (max 100 chars com palavra-chave), descrição (max 500 chars com 3 palavras-chave) e chamada para ação clara. Nicho: [NICHO].`,
+                            dica: "Pinterest tem vida longa — um pin pode gerar tráfego por meses ou anos."
+                          },
+                          {
+                            canal: "WhatsApp — Grupos do Nicho",
+                            cor: "green",
+                            prompt: `Escreva uma mensagem curta e natural (máx 3 linhas) para compartilhar em grupos de WhatsApp do nicho [NICHO], apresentando o e-book sobre "[TEMA]". Não pode parecer spam — deve parecer uma recomendação sincera de quem está ajudando o grupo.`,
+                            dica: "Entre nos grupos como membro ativo antes de divulgar. Entregue valor primeiro."
+                          },
+                          {
+                            canal: "Comunidades — Reddit / Fóruns",
+                            cor: "orange",
+                            prompt: `Escreva um post longo e genuíno para um fórum sobre [NICHO], compartilhando um aprendizado real sobre "[TEMA DO EBOOK]". No final, mencione que compilou tudo isso num e-book gratuito/pago no link [LINK]. Tom: humano, sem exagero de vendas.`,
+                            dica: "Posts que ensinam algo real antes de vender convertem 3-5x mais que puro anúncio."
+                          },
+                        ].map((c, i) => (
+                          <div key={i} className="p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-3">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-sm text-[#1F2937]">{c.canal}</span>
+                            </div>
+                            <div className="p-2.5 bg-white border border-gray-200 rounded-lg font-mono text-[10px] text-gray-600 leading-relaxed max-h-24 overflow-y-auto select-all">
+                              {c.prompt}
+                            </div>
+                            <button
+                              onClick={() => handleCopy(c.prompt, `divulg-${i}`)}
+                              className={`w-full py-1.5 rounded-lg text-xs font-semibold border flex items-center justify-center gap-1.5 transition-all ${copiedId === `divulg-${i}` ? "bg-emerald-50 text-emerald-600 border-emerald-200" : "bg-white text-[#2563EB] border-[#2563EB] hover:bg-blue-50"}`}
+                            >
+                              {copiedId === `divulg-${i}` ? <><Check className="w-3 h-3" /> Copiado!</> : <><Copy className="w-3 h-3" /> Copiar prompt</>}
+                            </button>
+                            <p className="text-[10px] text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-2.5 py-1.5 leading-relaxed">
+                              💡 {c.dica}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* CTA Final */}
+              <div className="bg-gradient-to-r from-[#2563EB] to-[#3B82F6] rounded-2xl p-6 text-white text-center space-y-3">
+                <Rocket className="w-8 h-8 mx-auto opacity-80" />
+                <h3 className="font-bold text-lg">Você tem tudo para começar agora.</h3>
+                <p className="text-sm text-blue-100 max-w-md mx-auto">
+                  E-book gerado ✓ &nbsp;·&nbsp; Formatação ✓ &nbsp;·&nbsp; Capa ✓ &nbsp;·&nbsp; Preço ✓ &nbsp;·&nbsp; Plataforma ✓ &nbsp;·&nbsp; Divulgação ✓
+                </p>
+                <p className="text-xs text-blue-200">
+                  O único passo que falta é você clicar em publicar.
+                </p>
               </div>
 
             </div>

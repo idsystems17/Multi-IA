@@ -29,7 +29,13 @@ const tamanhoMap: Record<string, { palavras: number; paginas: string }> = {
   detalhado: { palavras: 260, paginas: "40 a 55 páginas" },
 };
 
-const modelsToTry = ["gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"];
+const modelsToTry = [
+  "gemini-2.5-flash",
+  "gemini-2.5-flash-lite",
+  "gemini-2.0-flash",
+  "gemini-1.5-flash",
+  "gemini-flash-latest",
+];
 
 export default async function handler(req: any, res: any) {
   if (req.method === "OPTIONS") {
